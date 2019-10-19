@@ -3,6 +3,10 @@ uuid = "f15eac7f-9c89-472e-a5bb-5f47caaa2526"
 authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
 version = "0.1.0"
 
+[deps]
+ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+
 [compat]
 julia = "1.2"
 

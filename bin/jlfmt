@@ -1,0 +1,2 @@
+#!/bin/bash
+exec jlcli --callmain=jlfmt=f15eac7f-9c89-472e-a5bb-5f47caaa2526:main -- "$@"
