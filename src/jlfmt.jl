@@ -1,6 +1,6 @@
 module jlfmt
 
-using ArgParse
+using ArgParse: @add_arg_table, ArgParseSettings, parse_args, usage_string
 using JuliaFormatter: JuliaFormatter, format, format_text
 
 function exc_handler(settings, err)
