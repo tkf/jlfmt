@@ -1,6 +1,6 @@
 using jlfmt
 using Test
 
-@testset "jlfmt.jl" begin
+@testset "jlfmt" begin
     # Write your own tests here.
 end

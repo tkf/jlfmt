@@ -1,4 +1,4 @@
-# jlfmt.jl
+# jlfmt
 
 ```@index
 ```
