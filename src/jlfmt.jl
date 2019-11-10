@@ -65,7 +65,7 @@ function preprocess_indents(text)
     return join((chop(line, head = indent, tail = 0) for line in lines), "\n"), indent
 end
 
-function print_diff(a, b, opts=`--unified`; path=nothing)
+function print_diff(a, b, opts = `--unified`; path = nothing)
     prog = something(Sys.which.(("colordiff", "diff"))...)
     if path !== nothing
         opts = `--label a/$path --label b/$path $opts`
@@ -77,7 +77,7 @@ function print_diff(a, b, opts=`--unified`; path=nothing)
         run(`mkfifo $pa $pb`)
         local proc
         @sync begin
-            proc = run(pipeline(cmd; stdout=stdout, stderr=stderr); wait=false)
+            proc = run(pipeline(cmd; stdout = stdout, stderr = stderr); wait = false)
             @async write(pa, a)
             @async write(pb, b)
         end
@@ -99,7 +99,7 @@ function main(args = ARGS)
             pop!(kwargs, :overwrite, nothing)
             text, indent = preprocess_indents(read(stdin, String))
             formatted = format_text(text; margin = 92 - indent, kwargs...)
-            show_diff && return print_diff(text, formatted; path="-")
+            show_diff && return print_diff(text, formatted; path = "-")
             print(join(
                 (isempty(l) ? l : string(" "^indent, l) for l in split(formatted, "\n")),
                 "\n",
@@ -113,7 +113,7 @@ function main(args = ARGS)
             for p in paths
                 text = read(p, String)
                 formatted = format_text(text; kwargs...)
-                print_diff(text, formatted; path=p)
+                print_diff(text, formatted; path = p)
             end
             return
         end
