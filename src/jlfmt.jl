@@ -18,24 +18,43 @@ function parse_settings()
         exc_handler = exc_handler,
     )
 
-#! format: off
+    #! format: off
     @add_arg_table setting begin
         "--preview"
-            help = "set `overwrite=false`"
             dest_name = "overwrite"
             action = :store_false
+            help = """
+            Set `overwrite=false`.  If it is specified, the formatted
+            version of file named `foo.jl` will be written to
+            `foo_fmt.jl`.
+            """
         "--verbose"
             action = :store_true
+            help = """
+            Print the name of the file being formatted along with
+            relevant details to `stdout`.
+            """
         "--always-for-in"
             dest_name = "always_for_in"
             action = :store_true
+            help = """
+            Always use `in` keyword for `for` loops.
+            """
         "--diff"
             action = :store_true
+            help = """
+            Show diff using `colordiff` or `diff` command instead of writing
+            the result to the original files.
+            """
         "paths"
-            help = "paths to be formatted"
             nargs = '*'
+            help = """
+            Paths to be formatted.  Recursively search Julia files if
+            directories are passed.  Read content from stdin if no
+            path or a single `-` is specified.
+            """
     end
-#! format: on
+    #! format: on
 end
 
 function preprocess_indents(text)
