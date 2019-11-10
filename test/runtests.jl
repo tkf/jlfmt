@@ -2,5 +2,5 @@ using jlfmt
 using Test
 
 @testset "jlfmt" begin
-    # Write your own tests here.
+    @test jlfmt.main(["--help"]) === nothing
 end
