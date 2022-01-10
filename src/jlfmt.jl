@@ -132,10 +132,8 @@ function main(args = ARGS)
             text, indent = preprocess_indents(read(stdin, String))
             formatted = format_text(text; margin = 92 - indent, kwargs...)
             show_diff && return print_diff(text, formatted; path = "-")
-            print(join(
-                (isempty(l) ? l : string(" "^indent, l) for l in split(formatted, "\n")),
-                "\n",
-            ))
+            lines = (isempty(l) ? l : string(" "^indent, l) for l in split(formatted, "\n"))
+            print(join(lines, "\n"))
             return
         end
 
