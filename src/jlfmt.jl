@@ -1,6 +1,8 @@
 module jlfmt
 
+import Pkg
 using ArgParse: @add_arg_table, ArgParseSettings, parse_args, usage_string
+using Base: UUID
 using JuliaFormatter: JuliaFormatter, format, format_text
 
 function exc_handler(settings, err)
@@ -20,6 +22,12 @@ function parse_settings()
 
     #! format: off
     @add_arg_table setting begin
+        "--version"
+            dest_name = "version"
+            action = :store_true
+            help = """
+            Print version.
+            """
         "--preview"
             dest_name = "overwrite"
             action = :store_false
@@ -87,9 +95,33 @@ function print_diff(a, b, opts = `--unified`; path = nothing)
     end
 end
 
+function print_version(io::IO = stdout)
+    deps = Pkg.dependencies()
+    info = (
+        jlfmt = get(deps, UUID("f15eac7f-9c89-472e-a5bb-5f47caaa2526"), nothing),
+        JuliaFormatter = get(deps, UUID("98e50ef6-434e-11e9-1051-2b60c6c9e899"), nothing),
+        ArgParse = get(deps, UUID("c7e460c6-2fb9-53a9-8c5b-16f535851c63"), nothing),
+    )
+    for (k, pkginfo) in pairs(info)
+        v = if pkginfo === nothing
+            "<unknown version>"
+        else
+            pkginfo.version
+        end
+        println(io, k, " ", v)
+    end
+    println(io, "julia ", VERSION)
+    println(io, "in project: ", Base.active_project())
+end
+
 function main(args = ARGS)
     arguments = parse_args(args, parse_settings())
     if arguments !== nothing
+        if pop!(arguments, "version")
+            print_version()
+            return
+        end
+
         paths = pop!(arguments, "paths")
         show_diff = pop!(arguments, "diff")
         kwargs = Dict(Symbol(k) => v for (k, v) in arguments)
